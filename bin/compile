@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+# bin/compile <build-dir> <cache-dir> <env-dir>
+
+set -eu -o pipefail
+
+BUILD_DIR="$1"
+CACHE_DIR="$2"
+BUILDPACK_NAME=youtube-dl
+
+arrow() {
+  sed -u 's/^/-----> /'
+}
+
+source="https://yt-dl.org/downloads/latest/youtube-dl"
+destination_path="$BUILD_DIR/vendor/youtube-dl"
+destination="$destination_path/youtube-dl"
+
+echo "Downloading latest version from $source" | arrow
+mkdir -p $destination
+curl -L -s https://yt-dl.org/downloads/latest/youtube-dl -o $destination
+
+echo "Making youtube-dl executable" | arrow
+chmod a+rx $destination
+
+echo "Adding to PATH variable" | arrow
+export PATH="$destination_path:$PATH:\$PATH"
+mkdir -p $BUILD_DIR/.profile.d
+cat <<EOF > $BUILD_DIR/.profile.d/$BUILDPACK_NAME.sh
+export PATH="$destination_path:$PATH:\$PATH"
+EOF

@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+# bin/detect <build-dir>
+
+set -eu -o pipefail
+
+echo "youtube-dl"
