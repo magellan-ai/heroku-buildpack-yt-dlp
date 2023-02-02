@@ -17,6 +17,7 @@ destination="$destination_path/youtube-dl"
 
 echo "Downloading latest version from $source" | arrow
 mkdir -p destination_path
+ls -al $BUILD_DIR/vendor
 curl -L $source -o $destination
 
 echo "Making youtube-dl executable" | arrow
