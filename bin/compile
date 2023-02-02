@@ -17,7 +17,7 @@ destination="$destination_path/youtube-dl"
 
 echo "Downloading latest version from $source" | arrow
 mkdir -p destination_path
-curl -L -s https://yt-dl.org/downloads/latest/youtube-dl -o $destination
+curl -L $source -o $destination
 
 echo "Making youtube-dl executable" | arrow
 chmod a+rx $destination
