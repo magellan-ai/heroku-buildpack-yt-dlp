@@ -7,24 +7,30 @@ BUILD_DIR="$1"
 CACHE_DIR="$2"
 BUILDPACK_NAME=youtube-dl
 
-arrow() {
-  sed -u 's/^/-----> /'
+function indent() {
+  c='s/^/       /'
+  case $(uname) in
+    Darwin) sed -l "$c";;
+    *)      sed -u "$c";;
+  esac
 }
 
 source="https://yt-dl.org/downloads/latest/youtube-dl"
 destination_path="$BUILD_DIR/vendor/youtube-dl"
 destination="$destination_path/youtube-dl"
 
-echo "Downloading latest version from $source" | arrow
+echo "Downloading latest version from $source" | indent
 mkdir -p $destination_path
-curl -L $source -o $destination
+curl -s -L $source -o $destination
 
-echo "Making youtube-dl executable" | arrow
+echo "Making youtube-dl executable" | indent
 chmod a+rx $destination
 
-echo "Adding to PATH variable" | arrow
+echo "Adding to PATH variable" | indent
 export PATH="$destination_path:$PATH:\$PATH"
 mkdir -p $BUILD_DIR/.profile.d
 cat <<EOF > $BUILD_DIR/.profile.d/$BUILDPACK_NAME.sh
 export PATH="$destination_path:$PATH:\$PATH"
 EOF
+
+echo "youtube-dl installation complete!" | indent
