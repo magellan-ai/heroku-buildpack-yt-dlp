@@ -28,9 +28,8 @@ chmod a+rx $destination
 
 echo "Adding to PATH variable" | indent
 mkdir -p $BUILD_DIR/.profile.d
-echo "NEW PATH: $destination_path:${PATH//$BUILD_DIR//app}:\$PATH"
 cat <<EOF > $BUILD_DIR/.profile.d/$BUILDPACK_NAME.sh
-export PATH="$destination_path:${PATH//$BUILD_DIR//app}:\$PATH"
+export PATH="${destination_path//$BUILD_DIR//app}:${PATH//$BUILD_DIR//app}:\$PATH"
 EOF
 
 echo "youtube-dl installation complete!" | indent
