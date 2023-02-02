@@ -27,10 +27,9 @@ echo "Making youtube-dl executable" | indent
 chmod a+rx $destination
 
 echo "Adding to PATH variable" | indent
-export PATH="$destination_path:$PATH"
 mkdir -p $BUILD_DIR/.profile.d
 cat <<EOF > $BUILD_DIR/.profile.d/$BUILDPACK_NAME.sh
-export PATH="$destination_path:$PATH:\$PATH"
+export PATH="$destination_path:${PATH//$BUILD_DIR//app}:\$PATH"
 EOF
 
 echo "youtube-dl installation complete!" | indent
