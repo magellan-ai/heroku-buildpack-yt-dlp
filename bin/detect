@@ -3,4 +3,4 @@
 
 set -eu -o pipefail
 
-echo "youtube-dl"
+echo "ty-dlp"

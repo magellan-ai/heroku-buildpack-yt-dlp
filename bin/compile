@@ -5,7 +5,7 @@ set -eu -o pipefail
 
 BUILD_DIR="$1"
 CACHE_DIR="$2"
-BUILDPACK_NAME=youtube-dl
+BUILDPACK_NAME=yt-dlp
 
 function indent() {
   c='s/^/       /'
@@ -15,15 +15,15 @@ function indent() {
   esac
 }
 
-source="https://yt-dl.org/downloads/latest/youtube-dl"
-destination_path="$BUILD_DIR/vendor/youtube-dl"
-destination="$destination_path/youtube-dl"
+source="https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp"
+destination_path="$BUILD_DIR/vendor/yt-dlp"
+destination="$destination_path/yt-dlp"
 
 echo "Downloading latest version from $source" | indent
 mkdir -p $destination_path
 curl -s -L $source -o $destination
 
-echo "Making youtube-dl executable" | indent
+echo "Making yt-dlp executable" | indent
 chmod a+rx $destination
 
 echo "Adding to PATH variable" | indent
@@ -32,4 +32,4 @@ cat <<EOF > $BUILD_DIR/.profile.d/$BUILDPACK_NAME.sh
 export PATH="${destination_path//$BUILD_DIR//app}:${PATH//$BUILD_DIR//app}:\$PATH"
 EOF
 
-echo "youtube-dl installation complete!" | indent
+echo "yt-dlp installation complete!" | indent
