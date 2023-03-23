@@ -3,4 +3,4 @@
 
 set -eu -o pipefail
 
-echo "ty-dlp"
+echo "yt-dlp"
